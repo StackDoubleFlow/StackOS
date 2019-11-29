@@ -97,7 +97,15 @@ impl Writer {
         self.column_position = 0;
     }
 
-    fn clear_row(&mut self, row: usize) {/* TODO */}
+    fn clear_row(&mut self, row: usize) {
+        let blank = ScreenChar {
+            ascii_character: b' ',
+            color_code: self.color_code,
+        };
+        for col in 0..BUFFER_WIDTH {
+            self.buffer.chars[row][col].write(blank);
+        }
+    }
 }
 
 impl fmt::Write for Writer {
