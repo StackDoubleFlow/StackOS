@@ -10,11 +10,11 @@ fn panic(_info: &PanicInfo) -> ! {
     loop {}
 }
 
-static HELLO: &[u8] = b"Hello World!";
-
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    vga::WRITER.write_string("Hello world!");
+    use core::fmt::Write;
+    vga::WRITER.lock().write_str("Hello World!").unwrap();
+    write!(vga::WRITER.lock(), ", here are some numbers: {} {}", 123, 3.14159).unwrap();
 
     loop {}
 }
