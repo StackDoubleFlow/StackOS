@@ -8,10 +8,16 @@ mod vga;
 mod gdt;
 mod interrupts;
 
+pub fn hlt() -> ! {
+    loop {
+        x86_64::instructions::hlt();
+    }
+}
+
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
-    loop {}
+    hlt();
 }
 
 fn init() {
@@ -25,6 +31,5 @@ fn init() {
 pub extern "C" fn _start() -> ! {
     init();
     println!("Hello World!, here are some numbers: {} {}", 123, 3.14159);
-
-    loop {}
+    hlt();
 }
