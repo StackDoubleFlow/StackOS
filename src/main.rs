@@ -17,6 +17,8 @@ fn panic(info: &PanicInfo) -> ! {
 fn init() {
     interrupts::init_idt();
     gdt::init();
+    unsafe { interrupts::PICS.lock().initialize() };
+    x86_64::instructions::interrupts::enable();
 }
 
 #[no_mangle]
