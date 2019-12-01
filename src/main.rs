@@ -3,10 +3,12 @@
 #![feature(abi_x86_interrupt)]
 
 use core::panic::PanicInfo;
+use bootloader::{BootInfo, entry_point};
 
 mod vga;
 mod gdt;
 mod interrupts;
+mod memory;
 
 pub fn hlt() -> ! {
     loop {
@@ -27,8 +29,9 @@ fn init() {
     x86_64::instructions::interrupts::enable();
 }
 
-#[no_mangle]
-pub extern "C" fn _start() -> ! {
+entry_point!(kernel_main);
+
+fn kernel_main(boot_info: &'static BootInfo) -> ! {
     init();
     println!("Hello World!, here are some numbers: {} {}", 123, 3.14159);
     hlt();
