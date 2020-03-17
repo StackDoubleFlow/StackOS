@@ -37,11 +37,18 @@ unsafe impl FrameAllocator<Size4KiB> for BootInfoFrameAllocator {
     }
 }
 
+/// Returns a mutable reference to the active level 4 page table
+///
+/// The caller must garantee that the physical memory of the page table is mapped
+/// to virtual memory at the offset specified `pysical_memory_offset`. This function
+/// should only be called once to prevent multiple `&mut` references pointing to the
+/// same data which can cause undefined behavior.
 pub unsafe fn active_level_4_table(physical_memory_offset: VirtAddr)
     -> &'static mut PageTable
 {
     use x86_64::registers::control::Cr3;
 
+    // Ignore Cr3 Flags
     let (level_4_table_frame, _) = Cr3::read();
 
     let phys = level_4_table_frame.start_address();
