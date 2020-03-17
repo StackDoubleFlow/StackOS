@@ -2,13 +2,13 @@
 #![no_main]
 #![feature(abi_x86_interrupt)]
 
+use bootloader::{entry_point, BootInfo};
 use core::panic::PanicInfo;
-use bootloader::{BootInfo, entry_point};
 
-mod vga;
 mod gdt;
 mod interrupts;
 mod memory;
+mod vga;
 
 pub fn hlt() -> ! {
     loop {
@@ -32,7 +32,12 @@ fn init() {
 entry_point!(kernel_main);
 
 fn kernel_main(boot_info: &'static BootInfo) -> ! {
+    use memory::{self, BootInfoFrameAllocator};
+    use x86_64::{structures::paging::Page, VirtAddr};
+
     init();
+
     println!("Hello World!, here are some numbers: {} {}", 123, 3.14159);
+
     hlt();
 }
