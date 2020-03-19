@@ -1,7 +1,6 @@
 use core::fmt;
 use lazy_static::lazy_static;
 use spin::Mutex;
-use volatile::Volatile;
 use vga::{
     writers::{Text80x25, TextWriter, ScreenCharacter},
     colors::{Color16Bit, TextModeColor},

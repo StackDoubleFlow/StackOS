@@ -33,9 +33,6 @@ fn panic(info: &PanicInfo) -> ! {
 }
 
 fn init() {
-    use memory::{self, BootInfoFrameAllocator};
-    use x86_64::VirtAddr;
-    
     interrupts::init_idt();
     gdt::init();
     unsafe { interrupts::PICS.lock().initialize() };
@@ -47,7 +44,7 @@ entry_point!(kernel_main);
 
 fn kernel_main(boot_info: &'static BootInfo) -> ! {
     use alloc::boxed::Box;
-    use memory::{self, BootInfoFrameAllocator};
+    use memory::BootInfoFrameAllocator;
     use x86_64::VirtAddr;
 
     init();
