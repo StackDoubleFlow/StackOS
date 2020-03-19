@@ -5,15 +5,14 @@
 
 extern crate alloc;
 
+mod allocator;
 mod gdt;
 mod interrupts;
 mod memory;
 mod vga;
-mod allocator;
 
 use bootloader::{entry_point, BootInfo};
 use core::panic::PanicInfo;
-
 
 pub fn hlt() -> ! {
     loop {
@@ -37,7 +36,6 @@ fn init() {
     gdt::init();
     unsafe { interrupts::PICS.lock().initialize() };
     x86_64::instructions::interrupts::enable();
-
 }
 
 entry_point!(kernel_main);

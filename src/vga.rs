@@ -2,8 +2,8 @@ use core::fmt;
 use lazy_static::lazy_static;
 use spin::Mutex;
 use vga::{
-    writers::{Text80x25, TextWriter, ScreenCharacter},
     colors::{Color16Bit, TextModeColor},
+    writers::{ScreenCharacter, Text80x25, TextWriter},
 };
 
 #[macro_export]
@@ -54,7 +54,8 @@ impl Writer {
                 let col = self.column_position;
 
                 let color_code = self.color_code;
-                self.text_mode.write_character(col, row, ScreenCharacter::new(byte, color_code));
+                self.text_mode
+                    .write_character(col, row, ScreenCharacter::new(byte, color_code));
                 self.column_position += 1;
             }
         }
