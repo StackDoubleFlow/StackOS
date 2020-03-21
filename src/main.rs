@@ -52,10 +52,16 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
     let mut frame_allocator = unsafe { BootInfoFrameAllocator::init(&boot_info.memory_map) };
     allocator::init_heap(&mut mapper, &mut frame_allocator).expect("heap initialization failed");
 
-    let b = Box::new(41);
-    println!("Box address is: {:p}", b);
-
-    println!("Hello World!, here are some numbers: {} {}", 123, 3.14159);
+    println!(r"
+    Welcome to
+     _____  _                _      ____    _____         ___    __ 
+    / ____|| |              | |    / __ \  / ____|       / _ \  /_ |
+   | (___  | |_  __ _   ___ | | __| |  | || (___ __   __| | | |  | |
+    \___ \ | __|/ _` | / __|| |/ /| |  | | \___ \\ \ / /| | | |  | |
+    ____) || |_| (_| || (__ |   < | |__| | ____) |\ V / | |_| |_ | |
+   |_____/  \__|\__,_| \___||_|\_\ \____/ |_____/  \_/   \___/(_)|_|
+    ");
+    
 
     hlt();
 }
